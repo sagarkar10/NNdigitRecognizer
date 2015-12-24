@@ -11,7 +11,7 @@ clc
 
 %important variables
 input_layer_size = 400;	% 20x20 pixel
-number_of_layer = 3;
+%number_of_layer = 3;
 hidden_layer_size = 30;
 output_layer_size = 10;	%1 to 10 , 10 corresponds to number 0
 
@@ -28,6 +28,23 @@ load('ex4data1.mat');
 m = size(X,1);	% #.examples
 n = size(X,2);	% #.features
 
+% load('ex4weights.mat');
+% 
+% % Unroll parameters 
+% nn_params = [Theta1(:) ; Theta2(:)];
+% 
+% % Weight regularization parameter (we set this to 0 here).
+% lambda = 0;
+% 
+% J = neuralNetCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
+%                    output_layer_size, X, y, lambda);
+% 
+% fprintf(['Cost at parameters (loaded from ex4weights): %f '...
+%          '\n(this value should be about 0.287629)\n'], J);
+% 
+% fprintf('\nProgram paused. Press enter to continue.\n');
+% pause;
+
 init_theta1 = randomInitialWeights(input_layer_size,hidden_layer_size);		% takes dimension of theta(not exactly)
 init_theta2 = randomInitialWeights(hidden_layer_size,output_layer_size);  % and returns random value range see inside function
 
@@ -36,7 +53,7 @@ rolled_init_theta = [init_theta1(:);init_theta2(:)];	% initial unrolled paramete
 
 %advance optimization algorithm fmincg
 
-options = optimset('MaxIter',50);
+options = optimset('MaxIter',60);
 lambda = 1;
 % [unroll_init_theta, cost] = fmincg( @(p) neuralNetCostFunction(p,...
 % 														input_layer_size,...
@@ -66,4 +83,4 @@ Theta2 = reshape( rolled_init_theta(1+hidden_layer_size*(input_layer_size+1) : e
 % prediction -> return a col vector[m:1] with the prediction
 predictions = predict(X, Theta1, Theta2);
 
-acuuracy = mean(double(y==predictions))*100;	%think, as only one we need.... mean = sum/number
+acuuracy = mean(double(y==predictions))*100	%think, as only one we need.... mean = sum/number
